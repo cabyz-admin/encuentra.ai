@@ -1,9 +1,9 @@
 import * as Sentry from "@sentry/nextjs";
 import { setupAnalytics } from "@v1/analytics/server";
 import { ratelimit } from "@v1/kv/ratelimit";
-import { logger } from "@v1/logger";
+
 import { getUser } from "@/lib/supabase/queries/index";
-import { createClient } from "@/lib/supabase/clients/clients/server";
+import { createClient } from "@/lib/supabase/clients/server";
 import {
   DEFAULT_SERVER_ERROR_MESSAGE,
   createSafeActionClient,
@@ -45,9 +45,9 @@ export const authActionClient = actionClientWithMeta
     const result = await next({ ctx: {} });
 
     if (process.env.NODE_ENV === "development") {
-      logger.info(`Input -> ${JSON.stringify(clientInput)}`);
-      logger.info(`Result -> ${JSON.stringify(result.data)}`);
-      logger.info(`Metadata -> ${JSON.stringify(metadata)}`);
+      console.info(`Input -> ${JSON.stringify(clientInput)}`);
+      console.info(`Result -> ${JSON.stringify(result.data)}`);
+      console.info(`Metadata -> ${JSON.stringify(metadata)}`);
 
       return result;
     }

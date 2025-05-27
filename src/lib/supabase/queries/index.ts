@@ -1,5 +1,4 @@
-import { logger } from "@v1/logger";
-import { createClient } from "@/lib/supabase/clients/clients/server";
+import { createClient } from "@/lib/supabase/clients/server";
 
 export async function getUser() {
   const supabase = createClient();
@@ -9,8 +8,7 @@ export async function getUser() {
 
     return result;
   } catch (error) {
-    logger.error(error);
-
+    console.error('Error getting user:', error);
     throw error;
   }
 }
@@ -23,7 +21,7 @@ export async function getPosts() {
 
     return result;
   } catch (error) {
-    logger.error(error);
+    console.error('Error getting posts:', error);
     throw error;
   }
 }

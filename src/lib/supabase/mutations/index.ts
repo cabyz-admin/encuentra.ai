@@ -1,5 +1,5 @@
-import { logger } from "@v1/logger";
-import { createClient } from "@/lib/supabase/clients/clients/server";
+
+import { createClient } from "@/lib/supabase/clients/server";
 import type { Database, Tables, TablesUpdate } from "../types";
 
 export async function updateUser(userId: string, data: TablesUpdate<"users">) {
@@ -10,7 +10,7 @@ export async function updateUser(userId: string, data: TablesUpdate<"users">) {
 
     return result;
   } catch (error) {
-    logger.error(error);
+    console.error(error);
 
     throw error;
   }
