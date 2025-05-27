@@ -1,5 +1,5 @@
 import { logger } from "@v1/logger";
-import { createClient } from "@v1/supabase/server";
+import { createClient } from "@/lib/supabase/clients/clients/server";
 
 export async function getUser() {
   const supabase = createClient();
