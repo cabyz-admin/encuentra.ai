@@ -1,0 +1,12 @@
+# /Users/castillo/GitHub/Encuentra/apps/web/.nixpacks.toml
+
+providers = ["bun"]
+
+[phases.install]
+cmds = ["bun install --frozen-lockfile"]
+
+[phases.build]
+cmds = ["bun run build"]
+
+[start]
+cmd = "bunx next start -p $PORT"
