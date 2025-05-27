@@ -1,0 +1,7 @@
+2025-05-27T03:03:19.192099Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/web/.next")}
+2025-05-27T03:03:19.192116Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@v1/web"), path: AnchoredSystemPathBuf("apps/web") }}))
+2025-05-27T03:03:19.291685Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/app/.next")}
+2025-05-27T03:03:19.291695Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@v1/app"), path: AnchoredSystemPathBuf("apps/app") }}))
+2025-05-27T04:29:45.524094Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("LICENSE.md"), AnchoredSystemPathBuf("apps"), AnchoredSystemPathBuf("bun.lockb"), AnchoredSystemPathBuf("image.png"), AnchoredSystemPathBuf("packages"), AnchoredSystemPathBuf("turbo.json"), AnchoredSystemPathBuf("package.json"), AnchoredSystemPathBuf("README.md"), AnchoredSystemPathBuf("tooling"), AnchoredSystemPathBuf("tsconfig.json"), AnchoredSystemPathBuf("biome.json")}
+2025-05-27T04:29:45.531834Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(All(DefaultGlobalFileChanged))
+2025-05-27T04:29:57.217122Z  WARN turborepo_lib::daemon::server: Root watcher triggering shutdown
