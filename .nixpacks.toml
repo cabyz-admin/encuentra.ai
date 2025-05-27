@@ -1,0 +1,16 @@
+# /Users/castillo/GitHub/Encuentra/apps/app/.nixpacks.toml
+
+providers = ["bun"] # Instruct Nixpacks to use Bun
+
+[phases.setup]
+# Nixpacks will automatically detect bun and install it if `providers = ["bun"]` is set.
+# No specific nixPkgs needed here unless there are other system dependencies.
+
+[phases.install]
+cmds = ["bun install --frozen-lockfile"]
+
+[phases.build]
+cmds = ["bun run build"]
+
+[start]
+cmd = "bunx next start -p $PORT"
