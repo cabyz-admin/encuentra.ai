@@ -13,10 +13,12 @@ bun run dev
 
 ### For Bolt.new / WebContainers (npm) ✅
 ```bash
-npm install
+npm install --legacy-peer-deps  # Use legacy flag for webcontainers
 npm run build
 npm run dev
 ```
+
+> **Note**: The `packageManager` field in root package.json is set to `bun@1.1.26` for Railway deployment compatibility. This doesn't prevent npm usage - npm will simply ignore this field and work normally.
 
 ## 📦 Available Scripts
 
