@@ -1,0 +1,23 @@
+# railway.toml
+
+# Service for the main application (apps/app)
+[[services]]
+name = "encuentra-app"
+  [services.build]
+  builder = "nixpacks"
+  rootDir = "./apps/app"
+  installCommand = "bun install --frozen-lockfile"
+  buildCommand = "bun run build"
+  [services.deploy]
+  startCommand = "bunx next start -p ${PORT}" # Railway provides $PORT
+
+# Service for the web application (apps/web)
+[[services]]
+name = "encuentra-web"
+  [services.build]
+  builder = "nixpacks"
+  rootDir = "./apps/web"
+  installCommand = "bun install --frozen-lockfile"
+  buildCommand = "bun run build"
+  [services.deploy]
+  startCommand = "bunx next start -p ${PORT}" # Railway provides $PORT
