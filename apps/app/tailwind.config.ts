@@ -1,7 +1,19 @@
-import baseConfig from "@v1/ui/tailwind.config";
 import type { Config } from "tailwindcss";
 
-export default {
-  content: ["./src/**/*.{ts,tsx}", "../../packages/ui/src/**/*.{ts,tsx}"],
-  presets: [baseConfig],
+const config = {
+  darkMode: ["class"],
+  content: [
+    "./src/**/*.{ts,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+      },
+    },
+  },
+  plugins: [],
 } satisfies Config;
+
+export default config;
