@@ -68,7 +68,11 @@ Everything you need to build a production ready SaaS, it's a opinionated stack b
 
 ## Prerequisites
 
-Bun<br>
+**Package Manager (choose one):**<br>
+- [Bun](https://bun.sh/) - Recommended for Railway deployment<br>
+- [npm](https://www.npmjs.com/) - For Bolt.new/WebContainers compatibility<br>
+
+**Required Services:**<br>
 Docker<br>
 Upstash<br>
 Dub<br>
@@ -83,14 +87,30 @@ OpenPanel<br>
 Clone this repo locally with the following command:
 
 ```bash
+# With degit (bun)
 bunx degit midday-ai/v1 v1
+
+# Or with npx (npm)
+npx degit midday-ai/v1 v1
 ```
+
+### Option 1: Using Bun (Recommended for Railway)
 
 1. Install dependencies using bun:
 
 ```sh
 bun i
 ```
+
+### Option 2: Using npm (For Bolt.new/WebContainers)
+
+1. Install dependencies using npm:
+
+```sh
+npm install
+```
+
+### Configuration (Both options)
 
 2. Copy `.env.example` to `.env` and update the variables.
 
@@ -101,19 +121,34 @@ cp apps/app/.env.example apps/app/.env
 cp apps/web/.env.example apps/web/.env
 ```
 
-4. Start the development server from either bun or turbo:
+4. Start the development server:
 
-```ts
-bun dev // starts everything in development mode (web, app, api, email)
-bun dev:web // starts the web app in development mode
-bun dev:app // starts the app in development mode
-bun dev:api // starts the api in development mode
-bun dev:email // starts the email app in development mode
-
-// Database
-bun migrate // run migrations
-bun seed // run seed
+### With Bun:
+```bash
+bun dev         # starts everything in development mode (web, app, api, email)
+bun dev:web     # starts the web app in development mode
+bun dev:app     # starts the app in development mode
 ```
+
+### With npm:
+```bash
+npm run dev         # starts everything in development mode (web, app, api, email)
+npm run dev:web     # starts the web app in development mode
+npm run dev:app     # starts the app in development mode
+```
+
+### Database operations (works with both):
+```bash
+# With Bun
+bun migrate     # run migrations
+bun seed        # run seed
+
+# With npm
+npm run migrate # run migrations (if script exists)
+npm run seed    # run seed (if script exists)
+```
+
+> **Note**: All scripts work with both package managers thanks to Turbo's environment-agnostic approach.
 
 ## How to use
 This boilerplate is inspired by our work on Midday, and it's designed to serve as a reference for real-world apps. Feel free to dive into the code and see how we've tackled various features. Whether you're looking to understand authentication flows, database interactions, or UI components, you'll find practical, battle-tested implementations throughout the codebase. It's not just a starting point; it's a learning resource that can help you build your own applications.
