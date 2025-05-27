@@ -1,0 +1,8 @@
+# railway.toml for apps/web (encuentra-web service)
+
+[build]
+installCommand = "bun install --frozen-lockfile"
+buildCommand = "bun run build"
+
+[deploy]
+startCommand = "bunx next start -p ${PORT}"
