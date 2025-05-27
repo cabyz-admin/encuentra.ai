@@ -1,6 +1,6 @@
-import * as Sentry from "@sentry/nextjs";
-import { setupAnalytics } from "@v1/analytics/server";
-import { ratelimit } from "@v1/kv/ratelimit";
+// import * as Sentry from "@sentry/nextjs";
+// import { setupAnalytics } from "@v1/analytics/server";
+// import { ratelimit } from "@v1/kv/ratelimit";
 
 import { getUser } from "@/lib/supabase/queries/index";
 import { createClient } from "@/lib/supabase/clients/server";
@@ -57,18 +57,18 @@ export const authActionClient = actionClientWithMeta
   .use(async ({ next, metadata }) => {
     const ip = headers().get("x-forwarded-for");
 
-    const { success, remaining } = await ratelimit.limit(
-      `${ip}-${metadata.name}`,
-    );
+    // const { success, remaining } = await ratelimit.limit(
+    //   `${ip}-${metadata.name}`,
+    // );
 
-    if (!success) {
-      throw new Error("Too many requests");
-    }
+    // if (!success) {
+    //   throw new Error("Too many requests");
+    // }
 
     return next({
       ctx: {
         ratelimit: {
-          remaining,
+          remaining: 100, // Default value for now
         },
       },
     });
@@ -84,21 +84,20 @@ export const authActionClient = actionClientWithMeta
     }
 
     if (metadata) {
-      const analytics = await setupAnalytics({
-        userId: user.id,
-      });
+      // const analytics = await setupAnalytics({
+      //   userId: user.id,
+      // });
 
-      if (metadata.track) {
-        analytics.track(metadata.track);
-      }
+      // if (metadata.track) {
+      //   analytics.track(metadata.track);
+      // }
     }
 
-    return Sentry.withServerActionInstrumentation(metadata.name, async () => {
-      return next({
-        ctx: {
-          supabase,
-          user,
-        },
-      });
+    // return Sentry.withServerActionInstrumentation(metadata.name, async () => {
+    return next({
+      ctx: {
+        supabase,
+        user,
+      },
     });
   });
