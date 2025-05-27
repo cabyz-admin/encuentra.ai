@@ -21,41 +21,50 @@ Encuentra/
 # 1. Install Turbo globally first (required for Bolt.new)
 npm install -g turbo
 
-# 2. Install dependencies with legacy peer deps for compatibility
-npm install --legacy-peer-deps
+# 2. Set up Bolt.new compatibility (handles workspace: dependencies)
+chmod +x setup-bolt.sh && ./setup-bolt.sh
 
-# 3. Copy environment files (modify as needed)
+# 3. Use Bolt.new compatible package files
+cp apps/app/package-bolt.json apps/app/package.json
+cp apps/web/package-bolt.json apps/web/package.json
+
+# 4. Copy simplified next.config.mjs files (removes Sentry dependencies)
+cp apps/app/next.config-bolt.mjs apps/app/next.config.mjs
+cp apps/web/next.config-bolt.mjs apps/web/next.config.mjs
+
+# 5. Install and run individual apps (fallback approach)
+cd apps/app && npm install && npm run dev &
+cd ../web && npm install && npm run dev &
+
+# 6. Copy environment files (optional)
 cp apps/app/.env.example apps/app/.env
 cp apps/web/.env.example apps/web/.env
-cp apps/api/.env.example apps/api/.env
-
-# 4. Choose your launch option:
-
-# Option A: Launch main app only (recommended for Bolt.new)
-cd apps/app && npm run dev
-
-# Option B: Launch marketing website only
-cd apps/web && npm run dev
-
-# Option C: Try launching everything (if Turbo works)
-npm run dev
 ```
 
 ### 🚨 Bolt.new Specific Fixes
 
-**If you get "workspace:*" errors:**
+**If you get "workspace:*" errors (MAIN ISSUE):**
 ```bash
-# Use legacy peer deps
-npm install --legacy-peer-deps
-
-# Or install from individual app directories
+# Solution: Use individual app approach with compatible package.json files
+cp apps/app/package-bolt.json apps/app/package.json
+cp apps/web/package-bolt.json apps/web/package.json
 cd apps/app && npm install
-cd apps/web && npm install
+cd ../web && npm install
 ```
+
+**Alternative: Manual setup without workspace deps:**
+```bash
+# Install each app individually (workspace dependencies removed)
+cd apps/app && npm install
+cd ../web && npm install
+# Then run: npm run dev in each directory
+```
+
+### 🚨 Bolt.new Specific Fixes
 
 **If you get "turbo command not found":**
 ```bash
-# Install Turbo globally
+# Solution: Install Turbo globally
 npm install -g turbo
 
 # Or run apps individually
@@ -116,11 +125,11 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 **Issue: "Unsupported URL Type workspace:*"**
 ```bash
-# Solution: Use legacy peer deps or install individually
-npm install --legacy-peer-deps
-# OR
+# Solution: Use individual app approach with compatible package.json files
+cp apps/app/package-bolt.json apps/app/package.json
+cp apps/web/package-bolt.json apps/web/package.json
 cd apps/app && npm install
-cd apps/web && npm install
+cd ../web && npm install
 ```
 
 **Issue: "turbo command not found"**
