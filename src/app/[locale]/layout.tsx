@@ -7,8 +7,8 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
-  title: "Create v1",
-  description: "Production ready Next.js app",
+  title: "Encuentra - Reverse Job Board",
+  description: "Connect talented professionals with great companies",
 };
 
 export const viewport = {
@@ -38,8 +38,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-
-          <Footer />
         </ThemeProvider>
       </body>
     </html>
