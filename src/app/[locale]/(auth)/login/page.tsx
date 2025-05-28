@@ -2,7 +2,6 @@ import { GoogleSignin } from "@/components/google-signin";
 import { getUser } from "@/lib/supabase/queries/index";
 import { getUserProfile } from "@/lib/supabase/queries/user";
 import { redirect } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
