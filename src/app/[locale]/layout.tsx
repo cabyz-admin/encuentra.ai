@@ -7,8 +7,8 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
-  title: "Encuentra - Reverse Job Board",
-  description: "Connect talented professionals with great companies",
+  title: "Create v1",
+  description: "Production ready Next.js app",
 };
 
 export const viewport = {
@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en\" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           `${GeistSans.variable} ${GeistMono.variable}`,
@@ -38,6 +38,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

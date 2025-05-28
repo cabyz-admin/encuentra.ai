@@ -22,7 +22,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Menu, Home, Users, MessageSquare, User, Building, Settings, UserPlus, Heart } from "lucide-react";
+import { Menu, Home, Users, MessageSquare, User, Building, Settings } from "lucide-react";
 
 interface DashboardHeaderProps {
   userProfile: any;
@@ -47,24 +47,6 @@ export function DashboardHeader({ userProfile, user }: DashboardHeaderProps) {
       href: "/browse",
       icon: isCandidate ? Building : Users,
       current: pathname === "/browse",
-    },
-    {
-      name: "Matches",
-      href: "/matches",
-      icon: Heart,
-      current: pathname === "/matches" || pathname.startsWith("/matches"),
-    },
-    {
-      name: "Mutual Matches",
-      href: "/mutual-matches",
-      icon: Heart,
-      current: pathname === "/mutual-matches",
-    },
-    {
-      name: "Connections",
-      href: "/connections",
-      icon: UserPlus,
-      current: pathname === "/connections",
     },
     {
       name: "Messages",
