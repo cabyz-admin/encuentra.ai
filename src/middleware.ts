@@ -14,7 +14,18 @@ export async function middleware(request: NextRequest) {
     I18nMiddleware(request),
   );
 
-  if (!request.nextUrl.pathname.endsWith("/login") && !user) {
+  // Public routes that don't require authentication
+  const publicRoutes = ["/", "/login"];
+  
+  // Check if the current route is public
+  const isPublicRoute = publicRoutes.some(route => 
+    request.nextUrl.pathname === route || 
+    request.nextUrl.pathname === `/en${route}` || 
+    request.nextUrl.pathname === `/fr${route}`
+  );
+  
+  // If not a public route and user is not logged in, redirect to login
+  if (!isPublicRoute && !user) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
