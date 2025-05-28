@@ -247,7 +247,7 @@ export function VideoInterview({ questions, onComplete, onCancel }: VideoIntervi
       <CardFooter className="flex justify-between">
         {currentQuestionIndex === -1 ? (
           <>
-            <Button variant="outline" onClick={onCancel}>
+            <Button variant="outline\" onClick={onCancel}>
               Cancel
             </Button>
             <Button onClick={() => setCurrentQuestionIndex(0)}>
