@@ -1,9 +1,10 @@
-// import * as Sentry from "@sentry/nextjs";
-// import { setupAnalytics } from "@v1/analytics/server";
-// import { ratelimit } from "@v1/kv/ratelimit";
-
 import { getUser } from "@/lib/supabase/queries/index";
 import { createClient } from "@/lib/supabase/clients/server";
+
+// Simple rate limiting
+const rateLimitCache = new Map<string, { count: number; timestamp: number }>();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX_REQUESTS = 100; // 100 requests per minute
 import {
   DEFAULT_SERVER_ERROR_MESSAGE,
   createSafeActionClient,
@@ -57,43 +58,51 @@ export const authActionClient = actionClientWithMeta
   .use(async ({ next, metadata }) => {
     const ip = headers().get("x-forwarded-for");
 
-    // const { success, remaining } = await ratelimit.limit(
-    //   `${ip}-${metadata.name}`,
-    // );
+    // Simple in-memory rate limiting
+    const now = Date.now();
+    const key = `${ip}-${metadata.name}`;
+    const entry = rateLimitCache.get(key);
 
-    // if (!success) {
-    //   throw new Error("Too many requests");
-    // }
+    if (entry) {
+      if (now - entry.timestamp > RATE_LIMIT_WINDOW_MS) {
+        // Reset counter if window has passed
+        rateLimitCache.set(key, { count: 1, timestamp: now });
+      } else if (entry.count >= RATE_LIMIT_MAX_REQUESTS) {
+        throw new Error("Too many requests");
+      } else {
+        // Increment counter
+        rateLimitCache.set(key, { ...entry, count: entry.count + 1 });
+      }
+    } else {
+      // First request in this window
+      rateLimitCache.set(key, { count: 1, timestamp: now });
+    }
 
     return next({
       ctx: {
         ratelimit: {
-          remaining: 100, // Default value for now
+          remaining: Math.max(0, RATE_LIMIT_MAX_REQUESTS - (rateLimitCache.get(key)?.count || 0)),
         },
       },
     });
   })
   .use(async ({ next, metadata }) => {
-    const {
-      data: { user },
-    } = await getUser();
+    const { data: { user } } = await getUser();
     const supabase = createClient();
 
     if (!user) {
       throw new Error("Unauthorized");
     }
 
-    if (metadata) {
-      // const analytics = await setupAnalytics({
-      //   userId: user.id,
-      // });
-
-      // if (metadata.track) {
-      //   analytics.track(metadata.track);
-      // }
+    // Simple logging for development
+    if (metadata?.track) {
+      console.log(`[Analytics] ${metadata.track.event}`, {
+        userId: user.id,
+        channel: metadata.track.channel,
+        // Add any additional properties you want to track here
+      });
     }
 
-    // return Sentry.withServerActionInstrumentation(metadata.name, async () => {
     return next({
       ctx: {
         supabase,
