@@ -1,14 +1,15 @@
 import { getUser } from "@/lib/supabase/queries/index";
 import { getUserProfile, getCandidateProfile } from "@/lib/supabase/queries/user";
+import { getConnectionStatus } from "@/lib/supabase/queries/connections";
 import { recordCandidateViewAction } from "@/actions/user/user-actions";
-import { createConversationAction } from "@/actions/messaging/messaging-actions";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { MessageSquare, Bookmark, MapPin, Briefcase, GraduationCap, Globe, Linkedin, Github, Calendar, DollarSign } from "lucide-react";
+import { MapPin, Briefcase, GraduationCap, Globe, Linkedin, Github, Calendar, DollarSign } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ConnectionRequestButton } from "@/components/connections/connection-request-button";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const { data: candidateProfile } = await getCandidateProfile(params.id);
@@ -61,6 +62,15 @@ export default async function CandidateProfilePage({ params }: { params: { id: s
     await recordCandidateViewAction({ candidateId: params.id });
   }
   
+  // Check connection status
+  const { data: connectionStatus } = await getConnectionStatus(userData.user.id, params.id);
+  
+  const connectionStatusData = connectionStatus ? {
+    exists: true,
+    status: connectionStatus.status,
+    senderId: connectionStatus.sender_id,
+  } : undefined;
+  
   // Format dates
   const formatDate = (dateString?: string) => {
     if (!dateString) return "";
@@ -104,16 +114,21 @@ export default async function CandidateProfilePage({ params }: { params: { id: s
             {/* Action buttons - only show for companies viewing candidates */}
             {userProfile.user_type === "company" && userData.user.id !== params.id && (
               <div className="flex gap-2">
-                <Button asChild variant="outline">
-                  <Link href={`/messages/new?recipient=${params.id}`}>
-                    <MessageSquare className="mr-2 h-4 w-4" />
-                    Contact
-                  </Link>
-                </Button>
-                <Button variant="ghost">
-                  <Bookmark className="mr-2 h-4 w-4" />
-                  Save
-                </Button>
+                <ConnectionRequestButton
+                  recipientId={params.id}
+                  recipientName={candidateProfile.users?.full_name || "Candidate"}
+                  recipientType="candidate"
+                  status={connectionStatusData}
+                />
+                
+                {/* Only show message button if connected */}
+                {connectionStatusData?.status === "accepted" && (
+                  <Button asChild>
+                    <Link href={`/messages/new?recipient=${params.id}`}>
+                      Message
+                    </Link>
+                  </Button>
+                )}
               </div>
             )}
           </div>
