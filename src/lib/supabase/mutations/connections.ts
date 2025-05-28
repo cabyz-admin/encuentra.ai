@@ -95,26 +95,3 @@ export async function respondToConnectionRequest(
     return { data: null, error };
   }
 }
-
-export async function getConnectionStatus(
-  userId: string,
-  otherUserId: string
-) {
-  const supabase = createClient();
-
-  try {
-    // Check if there's a connection request between the users
-    const { data, error } = await supabase
-      .from("connection_requests")
-      .select("*")
-      .or(`and(sender_id.eq.${userId},recipient_id.eq.${otherUserId}),and(sender_id.eq.${otherUserId},recipient_id.eq.${userId})`)
-      .maybeSingle();
-
-    if (error) throw error;
-
-    return { data, error: null };
-  } catch (error) {
-    console.error("Error getting connection status:", error);
-    return { data: null, error };
-  }
-}
