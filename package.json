@@ -12,8 +12,17 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@sentry/nextjs": "^8.0.0",
+    "@supabase/sentry-js-integration": "^0.1.0",
     "@supabase/ssr": "^0.1.0",
     "@supabase/supabase-js": "^2.39.0",
+    "@t3-oss/env-nextjs": "^0.7.0",
+    "@trigger.dev/sdk": "^3.0.0",
+    "@v1/analytics": "workspace:*",
+    "@v1/kv": "workspace:*",
+    "@v1/logger": "workspace:*",
+    "@v1/supabase": "workspace:*",
+    "@v1/ui": "workspace:*",
     "dub": "^0.36.5",
     "geist": "^1.3.1",
     "next": "14.2.7",
@@ -22,13 +31,15 @@
     "next-themes": "^0.3.0",
     "nuqs": "^1.18.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "zod": "^3.22.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
     "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "tailwindcss": "^3.4.0",
     "typescript": "^5.5.4"
   }
 }
